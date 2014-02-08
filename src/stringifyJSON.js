@@ -8,24 +8,37 @@ var stringifyJSON = function (obj) {
 	var b = function(x) {
 		if(x === undefined || typeof x === "function") {
 			return
-		} else if (typeof x === "number") {
-			a += (x);
+		} else if (typeof x === "number" || typeof x === "boolean") {
+			a += x;
 		} else if (typeof x === "string") {
 			a += ("\"" + x + "\"")
-		} else if(Array.isArray(obj)) {
-	        for(var i = 0; i < obj.length; i++) {
-	          iterator(obj[i], i, obj);
+		} else if(Array.isArray(x)) {
+			a += ("[");
+	        for(var i = 0; i < x.length; i++) {
+	        	b(x[i]);
+	        	if(i !== x.length - 1) {
+					a += ",";
+				};
 	    	};
+	    	a += ("]");
         } else {
 			a += ("{");
-			for(key in obj) {
+			for(key in x) {
 				b(key);
 				a += ":";
-				b(obj.key);
+				b(x[key]);
+				if(Object.keys(x).indexOf(key) !== (Object.keys(x).length - 1)) {
+					a += ",";
+				};
 			};
 			a += ("}");
-		}
+		};
 	};
 	b(obj);
 	return a;
 };
+
+//var stringifyJSON = JSON.stringify;
+// "{"a":{"b":"c"}}"
+// stringifyJSON({"a":{"b":"c"}})
+// "{"a":{"b":"c"},}"
