@@ -8,7 +8,7 @@ var stringifyJSON = function (obj) {
 	var b = function(x) {
 		if(x === undefined || typeof x === "function") {
 			return
-		} else if (typeof x === "number" || typeof x === "boolean") {
+		} else if (typeof x === "number" || typeof x === "boolean" || x === null ) {
 			a += x;
 		} else if (typeof x === "string") {
 			a += ("\"" + x + "\"")
@@ -23,12 +23,14 @@ var stringifyJSON = function (obj) {
 	    	a += ("]");
         } else {
 			a += ("{");
-			for(key in x) {
-				b(key);
-				a += ":";
-				b(x[key]);
-				if(Object.keys(x).indexOf(key) !== (Object.keys(x).length - 1)) {
-					a += ",";
+			for(var key in x) {
+				if(typeof x[key] !== "function" && x[key] !== undefined && x[key] !== null) {
+					b(key);
+					a += ":";
+					b(x[key]);
+					if(Object.keys(x).indexOf(key) !== (Object.keys(x).length - 1)) {
+						a += ",";
+					};
 				};
 			};
 			a += ("}");
@@ -39,6 +41,3 @@ var stringifyJSON = function (obj) {
 };
 
 //var stringifyJSON = JSON.stringify;
-// "{"a":{"b":"c"}}"
-// stringifyJSON({"a":{"b":"c"}})
-// "{"a":{"b":"c"},}"
