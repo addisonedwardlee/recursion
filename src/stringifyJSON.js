@@ -24,7 +24,7 @@ var stringifyJSON = function (obj) {
         } else {
 			a += ("{");
 			for(var key in x) {
-				if(typeof x[key] !== "function" && x[key] !== undefined && x[key] !== null) {
+				if(typeof x[key] !== "function" && x[key] !== undefined) {
 					b(key);
 					a += ":";
 					b(x[key]);
